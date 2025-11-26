@@ -9,11 +9,11 @@ Wireframes are created in **PlantUML (SALT syntax)** and exported as PNGs for ea
 
 | Screen | Preview |
 |--------|---------|
-| HOME | ![Home screen](../../../../out/home-screen/Home.png) |
-| Messaging | ![Messaging screen](../../../../out/messaging/Messaging.png) |
-| Emergency / SOS | ![Emergency](../../../../out/emergency-sos/Emergency-SOS.png) |
-| Tasks | ![Tasks](../../../../out/tasks-learning/Tasks-learning.png) |
-| Parent mode | ![Parent Mode](../../../../out/parent-mode/Parent-mode.png)
+| HOME | ![Home screen](./png/Home.png) |
+| Messaging | ![Messaging screen](./png/Messaging.png) |
+| Emergency / SOS | ![Emergency](./png/Emergency-SOS.png) |
+| Tasks | ![Tasks](./png/Tasks-Learning.png) |
+| Parent mode | ![Parent Mode](./png/Parent-mode.png)
 
 ---
 
@@ -24,7 +24,7 @@ Wireframes are maintained in `.puml` files. To edit:
 1. Open the `.puml` file in **VSCode** with the [PlantUML extension](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
 2. Preview changes in real-time
 3. Export PNGs for sharing using the command palette: `PlantUML: Export Current Diagram`
-4. They will be available in the []`/out directory`](out)
+4. They will be available in the `/out` directory at the root of your folder. Move these images into the `png` folder.
 
 # 📐 Using PlantUML for Wireframes & Diagrams
 

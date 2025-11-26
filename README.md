@@ -10,7 +10,7 @@ This project is part of the larger vision to build a **digital village (kampung)
 
 ## 🌱 Project Vision
 FutureNet imagines a world where children use technology safely, free from the commercial pressures and distractions of the modern internet.  
-Inspired by **Japan’s keitai phones for kids**, FutureNet explores:
+Inspired by [**Japan’s keitai phones for kids**](https://www.red-dot.org/project/kids-keitai-46228), FutureNet explores:
 
 - A **minimal-distraction interface**
 - **Whitelisted communication** with trusted contacts
@@ -18,12 +18,7 @@ Inspired by **Japan’s keitai phones for kids**, FutureNet explores:
 - Tools for learning, independence, and digital wellbeing
 - Community-driven development
 
-FutureNet’s UI intends to later on branch into two age-appropriate variants, but first focusing on the 5-8 year old age group as a base:
-
-| UI Track | Age Group | Purpose |
-|----------|-----------|----------|
-| **LittleLink** | 5–8 years | Simple, bright, focused experience |
-| **LaterLink** | 9–12 years | More mature, safe transition toward independence |
+FutureNet’s UI intends to later on branch into two age-appropriate variants, but first focusing on the 5-8 year old age group as a base.
 
 This repo contains the **Web UI Demo** for these prototypes.
 
@@ -54,13 +49,13 @@ This repo contains the **Web UI Demo** for these prototypes.
 ---
 
 ## 👦👧 User Profiles & Usability Notes
-### Ages 5–8 (LittleLink)
+### Ages 5–8
 - Bright colours  
 - Large icons  
 - Simple navigation  
 - Low distraction environment  
 
-### Ages 9–12 (LaterLink)
+### Ages 9–12
 - Mimics simplified adult smartphone UX responsibly  
 - Social creativity, messaging, and productivity  
 - Safe gateway to internet-connected tools  
@@ -72,7 +67,7 @@ This repo contains the **Web UI Demo** for these prototypes.
 ## 🛠 Tech Stack
 | Component | Technology |
 |------------|------------|
-| Framework | React or Next.js |
+| Framework | React/Next.js |
 | Styling | TailwindCSS |
 | Deployment | Vercel / Netlify |
 | State | Minimal / local only (demo focus) |
@@ -111,11 +106,11 @@ For easier navigation, here are links to the main project folders and documentat
 
 | Area | Description | Link |
 |------|-------------|------|
-| **Research** | All research documentation | [docs/research](docs/research/README.md) |
-| **Stakeholder Research** | Notes, templates, and insights from interviews with parents, teachers, students, and experts. | [docs/research/stakeholders](docs/research/stakeholders/README.md) |
-| **User Persona Research** | Template for user persona. | [docs\research\user-personas\user-persona-[name].md](docs\research\user-personas\user-persona-[name].md) |
-| **Design** | All design documentation | [docs/design](docs/design/README.md) |
-| **Wireframes (Low-Fidelity)** | PlantUML/SALT wireframes. | [docs\design\wireframes\low-fidelity\README.md](docs\design\wireframes\low-fidelity\README.md) |
+| **Research** | All research documentation | [docs/research](docs/research) |
+| **Stakeholder Research** | Notes, templates, and insights from interviews with parents, teachers, students, and experts. | [docs/research/stakeholders/README.md](docs/research/stakeholders/README.md) |
+| **User Persona Research** | Template for user persona. | [docs/research/user-personas/user-persona-[name].md](docs/research/user-personas/user-persona-[name].md) |
+| **Design** | All design documentation | [docs/design]docs/design) |
+| **Wireframes (Low-Fidelity)** | PlantUML/SALT wireframes. | [docs/design/wireframes/low-fidelity/README.md](docs/design/wireframes/low-fidelity/README.md) |
 
 
 > Tip: Always refer to the relevant README in each folder for detailed instructions and workflow.
