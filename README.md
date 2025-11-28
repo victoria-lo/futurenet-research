@@ -82,7 +82,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, install the necessary dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+``` 
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -114,3 +125,13 @@ For easier navigation, here are links to the main project folders and documentat
 
 
 > Tip: Always refer to the relevant README in each folder for detailed instructions and workflow.
+
+---
+
+## 🤝 Contributing
+
+If you’d like to contribute (including as a non-coder or first-time contributor), please see:
+
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+
+This guide walks through setting up your environment, cloning the repo, running the app locally, and opening your first pull request with links to official GitHub documentation.
