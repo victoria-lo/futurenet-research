@@ -219,8 +219,6 @@ Docomo offers an **exclusive Kids Keitai Plan** for devices such as KY-41C and S
 
 The plan is intentionally **low-cost and safety-focused**.
 
----
-
 ### **4.2 Optional Location Service (Imadoco Search)**
 
 For GPS-based monitoring, Docomo offers:
@@ -231,8 +229,6 @@ For GPS-based monitoring, Docomo offers:
 Typical recurring cost for full functionality:
 **¥550 (child line) + ¥220 (guardian subscription)** per month.
 
----
-
 ### **4.3 Position in Docomo’s Tariff Line-up**
 
 Kids Keitai Plan sits at the **bottom of Docomo’s pricing stack**, below junior smartphone plans such as **Hajimete Sumaho Plan**.
@@ -242,8 +238,6 @@ It is positioned as:
 * A **pre-smartphone** tier
 * The **cheapest entry point** in Docomo’s family portfolio
 * A plan designed around **restricted communication**, not data use
-
----
 
 ### **4.4 Market Positioning vs Regular Feature-Phone Plans**
 
@@ -257,8 +251,6 @@ Regular feature-phone plans offer broader capabilities, including internet acces
 
 Kids Keitai, by contrast, is **low-ARPU**, narrow-function, and optimised for **child safety rather than versatility**.
 
----
-
 ### **4.5 Family-Bundle Dynamics**
 
 Kids Keitai integrates into Docomo’s **Family Discount** ecosystem:
@@ -266,8 +258,6 @@ Kids Keitai integrates into Docomo’s **Family Discount** ecosystem:
 * Free intra-family calling
 * Additional lines increase household retention
 * Functions as a **“sticky” add-on**, strengthening family commitment to Docomo plans
-
----
 
 ### **4.6 Competitive Landscape**
 
