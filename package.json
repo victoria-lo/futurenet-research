@@ -6,12 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pitch": "npx http-server . -o presentations/futurenet-pitch/index.html",
+    "build:theme": "sass presentations/futurenet-pitch/theme/futurenet.scss presentations/futurenet-pitch/theme/futurenet.css",
+    "watch:theme": "sass --watch presentations/futurenet-pitch/theme:presentations/futurenet-pitch/theme"
   },
   "dependencies": {
-    "next": "16.0.4",
+    "next": "^16.0.7",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "reveal.js": "^5.2.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,6 +24,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.0.4",
+    "sass": "^1.94.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
