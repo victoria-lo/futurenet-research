@@ -89,35 +89,56 @@ Use tags such as `#safety #communication #screenaddiction #schooluse #trust #pri
 
 # 📝 After the Interview
 
-### **1. Save Notes**
+### **1. Save Transcript/Raw Notes**
 Create a file in:
-[`docs\research\stakeholders\interview-notes`](docs\research\stakeholders\interview-notes)
+[`docs\research\stakeholders\interview-transcripts`](docs\research\stakeholders\interview-transcripts)
 
 Use format:
-- E01-expert-notes.md
-- P01-parent-notes.md
-- R01-regulator-notes.md
-- S01-student-notes.md
-- T01-teacher-notes.md
+- E01-expert-transcripts.md
+- P01-parent-transcripts.md
+- R01-regulator-transcripts.md
+- S01-student-transcripts.md
+- T01-teacher-transcripts.md
 
+### **2. Summarize into Notes In Standard Format**
+Use the template in [`docs/research/stakeholders/interview-notes/0-interview-notes-template.md`](docs/research/stakeholders/interview-notes/0-interview-notes-template.md) to fill in notes template from your raw notes in the transcript. You can use an AI tool to do so! 
 
-### **2. Add Findings to Insights Dashboard**
-Update:
+_Chatbot Prompt_
+```txt
+Generate user interview notes in markdown using the template below from the raw notes and transcript:
+
+Raw notes/transcript:
+[Copy-paste your raw notes here]
+
+Interview Notes template:
+[Copy-paste template here]
+```
+
+_Vibe Coding Tool Prompt_
+```
+Create a user interview note file in docs/research/stakeholders/interview-notes/ using the template in 0-interview-notes-template.md below from the raw notes and transcript in docs\research\stakeholders\interview-transcripts\[name-of-file].md
+```
+
+### **3. Create User Persona If New Persona identified**
+Look through the user personas in [`docs/research/user-personas`](docs/research/user-personas) if any of them fit the interview you just did. If this is a new user persona, create a new user persona file. You can adapt the prompts from above to use the same workflow to generate a user persona.
+
+### **4. Add Findings to Insights Dashboard**
+In a group after a batch of interviews or individually, update:
 [`docs\research\stakeholders\summary\insights-dashboard.md`](docs\research\stakeholders\summary\insights-dashboard.md)
 
 
-### **3. Identify Themes**
+### **5. Identify Themes**
 Add summary insights & opportunities to:
 [`docs\research\stakeholders\summary\insights-and-themes.md`](docs\research\stakeholders\summary\insights-and-themes.md)
 
 
-### **4. Create GitHub Issues if Needed**
+### **6. Create GitHub Issues if Needed**
 Examples:
 - New feature request
 - UX problem discovered
 - Safety gap identified
 
-### **5. Thank the participant**
+### **7. Thank the participant**
 A short message expressing appreciation.
 
 ---
