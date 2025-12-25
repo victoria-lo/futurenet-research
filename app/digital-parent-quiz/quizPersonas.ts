@@ -1,4 +1,18 @@
-import type { QuizPersona } from "./quizTypes";
+import type { PersonaId, QuizPersona } from "./quizTypes";
+
+export const PHONE_IMAGE_URLS: Record<PersonaId, string> = {
+  "bb-bold":
+    "https://www.cnet.com/a/img/resize/8aff5ecdbdc6fadd06ca979f04f2569f1ec7359a/hub/2008/08/21/6069b59f-f8fd-11e2-8c7c-d4ae52e62bcc/Blackberry_bold-Rogers.jpg?auto=webp&width=1200",
+  "htc-desire": "https://upload.wikimedia.org/wikipedia/commons/3/33/Htc-desire-2.jpg",
+  "palm-treo":
+    "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1500w,f_auto,q_auto:best/msnbc/Components/Photos/060515/060515_palm_vmed_9a.jpg",
+  razr: "https://upload.wikimedia.org/wikipedia/commons/5/56/Motorola_Razr_V3_montage_closed_open.png",
+  walkman: "https://static01.nyt.com/images/2007/10/24/technology/circuits/25phone.L.jpg?quality=75&auto=webp&disable=upscale",
+  "nokia-3310": "https://static.wikia.nocookie.net/nokia/images/6/6a/Nokia3310.jpg/revision/latest/scale-to-width-down/225?cb=20091222173051",
+  "nokia-e71": "https://media.wired.com/photos/59eac137cc302878a9fdc4d5/master/pass/nokia_e71_f.jpg",
+  "bb-curve":
+    "https://i5.walmartimages.com/seo/Used-BlackBerry-Curve-8520-GSM-Keyboard-Trackpad-Smartphone-Unlocked_d3fa4d2b-deab-46e0-a8b6-ccd010036f37_1.749bb9e6cbb51b3de6c85913e01b9b2c.jpeg",
+};
 
 export const PERSONAS: QuizPersona[] = [
   {
