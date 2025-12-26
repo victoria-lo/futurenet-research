@@ -181,6 +181,13 @@ export async function POST(req: Request) {
   } catch (err) {
     const details = errorToMessage(err);
     console.error("[send-quiz-email] env validation failed:", err);
+    console.log("Available env vars:", {
+      SMTP_HOST: !!process.env.SMTP_HOST,
+      SMTP_PORT: !!process.env.SMTP_PORT,
+      SMTP_USER: !!process.env.SMTP_USER,
+      SMTP_PASS: !!process.env.SMTP_PASS,
+      EMAIL_FROM: !!process.env.EMAIL_FROM,
+    });
     return NextResponse.json(
       {
         error: "Email configuration missing",
@@ -199,11 +206,18 @@ export async function POST(req: Request) {
     });
 
     await transport.sendMail({
-      from: smtp.from,
+      from: `FutureNet <${smtp.from}>`,
       to: email,
       subject: `Your Digital Parent Quiz Results — ${topPersona.phoneModel}`,
       text,
       html,
+      headers: {
+        'X-Mailer': 'FutureNet Digital Parent Quiz',
+        'X-Priority': '3',
+        'X-MSMail-Priority': 'Normal',
+        'List-Unsubscribe': '<mailto:noreply@futurenet-demo.netlify.app>',
+        'Reply-To': `FutureNet <${smtp.from}>`,
+      },
     });
   } catch (err) {
     const details = errorToMessage(err);

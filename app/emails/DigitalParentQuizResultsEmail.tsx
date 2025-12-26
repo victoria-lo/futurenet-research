@@ -2,62 +2,6 @@ import * as React from "react";
 import { Html, Head, Preview, Body, Container, Section, Text, Heading, Hr, Img, Link } from "@react-email/components";
 import { PHONE_IMAGE_URLS, PERSONAS } from "../digital-parent-quiz/quizPersonas";
 
-// Inline SVG Components
-const TreeSvg = ({ width = 80, height = 80, style = {} }) => (
-  <svg width={width} height={height} viewBox="0 0 640 640" style={{ ...style, color: "#1a1a1a" }}>
-    <g fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M320 90 C240 120, 200 190, 210 250 C170 260, 150 300, 160 340 C175 400, 250 430, 300 412 C320 460, 390 492, 450 470 C520 444, 540 370, 502 325 C540 300, 552 242, 522 205 C480 155, 390 135, 320 165" />
-      <path d="M318 260 C320 360, 320 450, 320 550" />
-      <path d="M320 430 C280 410, 250 385, 220 350" />
-      <path d="M320 380 C360 360, 390 330, 420 300" />
-      <path d="M280 550 C300 520, 340 520, 360 550" />
-    </g>
-  </svg>
-);
-
-const LeafSvg = ({ width = 60, height = 60, style = {} }) => (
-  <svg width={width} height={height} viewBox="0 0 640 640" style={{ ...style, color: "#1a1a1a" }}>
-    <g fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M120 360 C140 220, 260 140, 360 160 C480 184, 540 320, 470 420 C410 506, 270 530, 170 470 C130 446, 110 408, 120 360 Z" />
-      <path d="M190 470 C280 420, 360 330, 420 210" />
-      <path d="M250 430 C270 400, 300 370, 335 330" />
-      <path d="M300 470 C330 430, 360 390, 395 340" />
-    </g>
-  </svg>
-);
-
-const CatSvg = ({ width = 70, height = 70, style = {} }) => (
-  <svg width={width} height={height} viewBox="0 0 800 800" style={{ ...style, color: "#1a1a1a" }}>
-    <g fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M250 260 C250 180, 350 130, 400 170 C450 130, 550 180, 550 260 C550 380, 480 430, 400 430 C320 430, 250 380, 250 260 Z" />
-      <path d="M300 200 C280 140, 330 110, 360 160" />
-      <path d="M500 200 C520 140, 470 110, 440 160" />
-      <path d="M320 430 C280 520, 300 640, 400 650 C500 640, 520 520, 480 430" />
-      <path d="M480 560 C580 580, 600 720, 500 740" />
-      <path d="M390 320 C395 330, 405 330, 410 320" />
-      <path d="M330 330 C280 320, 260 320, 230 330" />
-      <path d="M330 350 C280 350, 260 360, 230 370" />
-      <path d="M470 330 C520 320, 540 320, 570 330" />
-      <path d="M470 350 C520 350, 540 360, 570 370" />
-    </g>
-  </svg>
-);
-
-
-const LaptopSvg = ({ width = 80, height = 80, style = {} }) => (
-  <svg width={width} height={height} viewBox="0 0 800 800" style={{ ...style, color: "#1a1a1a" }}>
-    <g fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="200" y="180" width="400" height="260" rx="40" ry="40"/>
-      <circle cx="340" cy="300" r="12"/>
-      <circle cx="460" cy="300" r="12"/>
-      <path d="M360 340 C390 360, 410 360, 440 340"/>
-      <path d="M380 440 C370 500, 370 540, 400 560 C430 540, 430 500, 420 440"/>
-      <path d="M300 580 C260 600, 260 640, 300 650 C400 670, 500 650, 500 620 C500 590, 460 580, 420 580"/>
-      <path d="M400 180 C390 140, 420 120, 440 140"/>
-      <circle cx="440" cy="140" r="10"/>
-    </g>
-  </svg>
-);
 
 
 export type PersonaId =
@@ -73,9 +17,9 @@ export type PersonaId =
 export type DigitalParentQuizResultsPayload = {
   submittedAt: string;
   email: string;
-  questions: Array<{
+  answers: Array<{
     questionId: string;
-    selectedId: string;
+    optionId: string;
     chapter: string;
     prompt: string;
     selectedLabel: string;
@@ -157,10 +101,10 @@ const defaultProps: DigitalParentQuizResultsEmailProps = {
   payload: {
     submittedAt: "2025-12-26T14:00:00Z",
     email: "parent@example.com",
-    questions: [
+    answers: [
       {
         questionId: "q1",
-        selectedId: "o1",
+        optionId: "o1",
         chapter: "Morning Routine",
         prompt: "How do you start your day?",
         selectedLabel: "Check emails and messages immediately",
@@ -183,33 +127,14 @@ const defaultProps: DigitalParentQuizResultsEmailProps = {
 
 export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizResultsEmailProps = defaultProps) {
   const { topPersona = defaultProps.topPersona, allPersonas = defaultProps.allPersonas, payload = defaultProps.payload, productUrl = defaultProps.productUrl } = props;
+  
 
   return (
     <Html>
       <Head />
       <Preview>Your Digital Parent Quiz results + full persona breakdown</Preview>
       <Body style={{ ...base, backgroundColor: "#f7f3ea", padding: "20px 12px", backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02))" }}>
-        {/* Header with doodles */}
-        <Container style={{ maxWidth: "600px", margin: "0 auto", position: "relative" }}>
-          {/* Margin decorative doodles */}
-          <div style={{ position: "absolute", top: "100px", left: "-180px", opacity: "0.3", transform: "rotate(15deg)" }}>
-            <CatSvg width={120} height={120} />
-          </div>
-          <div style={{ position: "absolute", top: "300px", right: "-170px", opacity: "0.25", transform: "rotate(-20deg)" }}>
-            <CatSvg width={150} height={150} />
-          </div>
-          <div style={{ position: "absolute", top: "500px", left: "-160px", opacity: "0.35", transform: "rotate(10deg)" }}>
-            <LeafSvg width={105} height={105} />
-          </div>
-          <div style={{ position: "absolute", top: "700px", right: "-190px", opacity: "0.2", transform: "rotate(-15deg)" }}>
-            <LaptopSvg width={165} height={165} />
-          </div>
-          <div style={{ position: "absolute", top: "900px", left: "-170px", opacity: "0.3", transform: "rotate(25deg)" }}>
-            <TreeSvg width={135} height={135} />
-          </div>
-          <div style={{ position: "absolute", top: "1100px", right: "-165px", opacity: "0.25", transform: "rotate(-10deg)" }}>
-            <LeafSvg width={105} height={105} />
-          </div>
+        <Container style={{ maxWidth: "600px", margin: "0 auto" }}>
 
           {/* Main content container */}
           <Container style={{ backgroundColor: "#ffffff", border: "3px solid rgba(26, 26, 26, 0.65)", borderRadius: "0", padding: "32px 24px", position: "relative", zIndex: "1" }}>
@@ -257,27 +182,20 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                 {topPersona.tagline}
               </Text>
               {/* Nostalgic Phone Display - Front and Center */}
-              <div style={{ display: "flex", justifyContent: "center", marginBottom: "24px" }}>
-                <div style={{ 
-                  border: "3px solid rgba(26, 26, 26, 0.4)", 
-                  borderRadius: "16px", 
-                  backgroundColor: "#ffffff", 
-                  padding: "32px", 
-                  display: "flex", 
-                  flexDirection: "column", 
-                  alignItems: "center", 
-                  justifyContent: "center",
-                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
-                  background: "linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%)"
-                }}>
-                  <Img src={PHONE_IMAGE_URLS[topPersona.id]} alt={topPersona.phoneModel} width={120} height={120} style={{ objectFit: "contain", marginBottom: "16px" }} />
-                  <Text style={{ margin: "0", fontSize: "18px", fontWeight: "700", color: "#1a1a1a", textAlign: "center" }}>
-                    {topPersona.phoneModel}
-                  </Text>
-                  <Text style={{ margin: "8px 0 0", fontSize: "14px", color: "#666", textAlign: "center", fontStyle: "italic" }}>
-                    Remember this beauty? 📱✨
-                  </Text>
-                </div>
+              <div style={{ textAlign: "center", marginBottom: "24px" }}>
+                <table style={{ margin: "0 auto", border: "3px solid rgba(26, 26, 26, 0.4)", borderRadius: "16px", backgroundColor: "#ffffff", padding: "32px" }}>
+                  <tr>
+                    <td style={{ textAlign: "center", padding: "0" }}>
+                      <Img src={PHONE_IMAGE_URLS[topPersona.id]} alt={topPersona.phoneModel} width={120} height={120} style={{ objectFit: "contain", marginBottom: "16px", display: "block", margin: "0 auto 16px auto" }} />
+                      <Text style={{ margin: "0", fontSize: "18px", fontWeight: "700", color: "#1a1a1a", textAlign: "center", display: "block" }}>
+                        {topPersona.phoneModel}
+                      </Text>
+                      <Text style={{ margin: "8px 0 0", fontSize: "14px", color: "#666", textAlign: "center", fontStyle: "italic", display: "block" }}>
+                        Remember this beauty? 📱✨
+                      </Text>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </Section>
 
@@ -373,20 +291,22 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                 </Text>
                 
                 {/* Phone Image */}
-                <div style={{ margin: "16px 0", display: "flex", justifyContent: "center" }}>
-                  <div style={{ 
+                <div style={{ margin: "16px 0", textAlign: "center" }}>
+                  <table style={{ 
+                    margin: "0 auto",
                     border: "2px solid #ffffff", 
                     borderRadius: "0px", 
                     backgroundColor: "#ffffff", 
                     padding: "16px", 
-                    display: "flex", 
-                    alignItems: "center", 
-                    justifyContent: "center",
                     width: "120px",
                     height: "120px"
                   }}>
-                    <Img src={PHONE_IMAGE_URLS[topPersona.id]} alt={topPersona.phoneModel} width={88} height={88} style={{ objectFit: "contain" }} />
-                  </div>
+                    <tr>
+                      <td style={{ textAlign: "center", verticalAlign: "middle", padding: "0" }}>
+                        <Img src={PHONE_IMAGE_URLS[topPersona.id]} alt={topPersona.phoneModel} width={88} height={88} style={{ objectFit: "contain", display: "block", margin: "0 auto" }} />
+                      </td>
+                    </tr>
+                  </table>
                 </div>
                 
                 {/* Phone Model */}
@@ -418,17 +338,10 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                   futurenet-demo.netlify.app/digital-parent-quiz
                 </Text>
                 
-                {/* Y2K Cyberpunk Design Elements */}
-                <div style={{ position: "absolute", top: "8px", left: "8px", fontSize: "84px", color: "#ffff00" }}>☀</div>
-                <div style={{ position: "absolute", top: "12px", right: "12px", fontSize: "72px", color: "#ff00ff" }}>☺</div>
-                <div style={{ position: "absolute", bottom: "8px", left: "16px", fontSize: "78px", color: "#00ffff" }}>★</div>
-                <div style={{ position: "absolute", bottom: "12px", right: "20px", fontSize: "60px", color: "#ffffff" }}>●</div>
-                <div style={{ position: "absolute", top: "50%", left: "8px", fontSize: "54px", color: "#ff00ff" }}>★</div>
-                <div style={{ position: "absolute", top: "30%", right: "8px", fontSize: "66px", color: "#00ffff" }}>☺</div>
               </div>
 
               {/* Social Share Buttons */}
-              <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+              <div style={{ textAlign: "center", margin: "16px 0" }}>
                 <Link href={`https://wa.me/?text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! 📱 Help us research how technology shapes modern parenting - what's your digital parenting style? Take the quiz: https://futurenet-demo.netlify.app/digital-parent-quiz`} style={{ textDecoration: "none" }}>
                   <div style={{ 
                     backgroundColor: "#a8e6a3", 
@@ -558,15 +471,19 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                 Curious about other parenting styles? Here&apos;s the full lineup:
               </Text>
 
-              <div style={{ display: "grid", gap: "16px" }}>
-                {allPersonas.map((persona) => (
-                  <div key={persona.id} style={{ display: "flex", alignItems: "center", padding: "16px", backgroundColor: "#f7f3ea", border: "2px solid rgba(26, 26, 26, 0.15)", borderRadius: "8px" }}>
-                    <div style={{ marginRight: "16px", flexShrink: "0" }}>
-                      <div style={{ border: "2px solid rgba(26, 26, 26, 0.3)", borderRadius: "4px", backgroundColor: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center", width: "60px", height: "60px" }}>
-                        <Img src={PHONE_IMAGE_URLS[persona.id]} alt={persona.phoneModel} width={40} height={40} style={{ objectFit: "contain" }} />
-                      </div>
-                    </div>
-                    <div style={{ flex: "1" }}>
+              {allPersonas.map((persona, index) => (
+                <table key={persona.id} style={{ width: "100%", marginBottom: index < allPersonas.length - 1 ? "16px" : "0", backgroundColor: "#f7f3ea", border: "2px solid rgba(26, 26, 26, 0.15)", borderRadius: "8px", borderCollapse: "separate", borderSpacing: "0" }}>
+                  <tr>
+                    <td style={{ padding: "16px", width: "76px", verticalAlign: "top" }}>
+                      <table style={{ border: "2px solid rgba(26, 26, 26, 0.3)", borderRadius: "4px", backgroundColor: "#ffffff", width: "60px", height: "60px", borderCollapse: "separate", borderSpacing: "0" }}>
+                        <tr>
+                          <td style={{ textAlign: "center", verticalAlign: "middle", width: "60px", height: "60px" }}>
+                            <Img src={PHONE_IMAGE_URLS[persona.id]} alt={persona.phoneModel} width={40} height={40} style={{ display: "block", margin: "0 auto" }} />
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td style={{ padding: "16px 16px 16px 0", verticalAlign: "top" }}>
                       <Text style={{ margin: "0 0 4px", fontSize: "16px", fontWeight: "600" }}>
                         {persona.phoneModel} — {persona.characterName}
                       </Text>
@@ -576,10 +493,10 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                       <Text style={{ margin: "0", fontSize: "14px", lineHeight: "1.4" }}>
                         {persona.summary}
                       </Text>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    </td>
+                  </tr>
+                </table>
+              ))}
             </Section>
 
             <Hr style={{ borderColor: "rgba(26, 26, 26, 0.2)", margin: "32px 0", borderWidth: "2px" }} />
@@ -611,42 +528,6 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                 <Heading as="h3" style={{ margin: "0", fontSize: "18px", fontWeight: "600", color: "#1a1a1a" }}>
                   Research Data
                 </Heading>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <button style={{ 
-                    backgroundColor: "#000000", 
-                    color: "#ffffff", 
-                    border: "2px solid #ffffff", 
-                    padding: "4px 8px", 
-                    fontSize: "10px", 
-                    fontFamily: "'Verdana', sans-serif",
-                    cursor: "pointer",
-                    textTransform: "uppercase",
-                    letterSpacing: "1px"
-                  }} onClick={() => navigator.clipboard.writeText(JSON.stringify({
-                    timestamp: new Date().toISOString(),
-                    persona_id: topPersona.id,
-                    email: payload?.email || 'unknown'
-                  }, null, 2))}>
-                    Copy Meta
-                  </button>
-                  <button style={{ 
-                    backgroundColor: "#000000", 
-                    color: "#ffffff", 
-                    border: "2px solid #ffffff", 
-                    padding: "4px 8px", 
-                    fontSize: "10px", 
-                    fontFamily: "'Verdana', sans-serif",
-                    cursor: "pointer",
-                    textTransform: "uppercase",
-                    letterSpacing: "1px"
-                  }} onClick={() => navigator.clipboard.writeText(JSON.stringify(payload?.questions?.map((q: any, index: number) => ({
-                    question_id: q.questionId,
-                    selected_option: q.selectedId === q.questionId + 'a' ? 1 : 2,
-                    chapter: q.chapter
-                  })) || [], null, 2))}>
-                    Copy Responses
-                  </button>
-                </div>
               </div>
               <Text style={{ margin: "0 0 12px", fontSize: "12px", color: "#666", fontStyle: "italic" }}>
                 For FutureNet's research purposes - thank you for contributing to our study!
@@ -664,17 +545,17 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                   padding: "12px", 
                   fontFamily: "'Courier New', monospace", 
                   fontSize: "11px", 
-                  lineHeight: "1.4",
+                  lineHeight: "1.2",
                   color: "#333",
-                  whiteSpace: "pre-wrap"
+                  wordBreak: "break-all"
                 }}>
-                  <Text style={{ margin: "0", fontFamily: "'Courier New', monospace", fontSize: "11px", whiteSpace: "pre-wrap" }}>
+                  <span style={{ fontFamily: "'Courier New', monospace", fontSize: "11px" }}>
 {JSON.stringify({
-  timestamp: new Date().toISOString(),
-  persona_id: topPersona.id,
-  email: payload?.email || 'unknown'
-}, null, 2)}
-                  </Text>
+timestamp: new Date().toISOString(),
+persona_id: topPersona.id,
+email: payload?.email || 'unknown'
+})}
+                  </span>
                 </div>
               </div>
 
@@ -690,40 +571,21 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                   padding: "12px", 
                   fontFamily: "'Courier New', monospace", 
                   fontSize: "11px", 
-                  lineHeight: "1.4",
+                  lineHeight: "1.2",
                   color: "#333",
-                  whiteSpace: "pre-wrap"
+                  wordBreak: "break-all"
                 }}>
-                  <Text style={{ margin: "0", fontFamily: "'Courier New', monospace", fontSize: "11px", whiteSpace: "pre-wrap" }}>
-{JSON.stringify(payload?.questions?.map((q: any, index: number) => ({
-  question_id: q.questionId,
-  selected_option: q.selectedId === q.questionId + 'a' ? 1 : 2,
-  chapter: q.chapter
-})) || [], null, 2)}
-                  </Text>
+                  <span style={{ fontFamily: "'Courier New', monospace", fontSize: "11px" }}>
+{JSON.stringify(payload?.answers?.map((q: any, index: number) => ({
+question_id: q.questionId,
+selected_option: q.optionId,
+chapter: q.chapter
+})) || [])}
+                  </span>
                 </div>
               </div>
             </Section>
 
-            {/* Footer doodles */}
-            <div style={{ position: "relative", height: "180px", overflow: "visible" }}>
-              {/* Additional margin decorations near footer */}
-              <div style={{ position: "absolute", top: "-100px", left: "-185px", opacity: "0.2", transform: "rotate(30deg)" }}>
-                <CatSvg width={180} height={180} />
-              </div>
-              <div style={{ position: "absolute", top: "-80px", right: "-175px", opacity: "0.25", transform: "rotate(-25deg)" }}>
-                <LeafSvg width={145} height={145} />
-              </div>
-              <div style={{ position: "absolute", bottom: "10px", opacity: "0.4", transform: "rotate(-2deg)" }}>
-                <CatSvg width={105} height={105} />
-              </div>
-              <div style={{ position: "absolute", bottom: "15px", right: "-0px", opacity: "0.5", transform: "rotate(2deg)" }}>
-                <TreeSvg width={105} height={105} />
-              </div>
-              <div style={{ position: "absolute", bottom: "5px", left: "50%", transform: "translateX(-50%) rotate(-3deg)", opacity: "0.3" }}>
-                <LaptopSvg width={120} height={120} />
-              </div>
-            </div>
           </Container>
         </Container>
       </Body>

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "email-build": "email build --dir app/emails",
-    "email-dev": "email dev --dir app/emails",
+    "email-dev": "email dev --dir app/emails --port 8000",
     "email-export": "email export --dir app/emails"
   },
   "dependencies": {
