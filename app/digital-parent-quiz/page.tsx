@@ -85,6 +85,11 @@ export default function DigitalParentQuizPage() {
   });
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [respondentType, setRespondentType] = useState<"parent" | "expecting" | "considering" | "na" | null>(null);
+  const [researchOptIn, setResearchOptIn] = useState(false);
+  const [birthYear, setBirthYear] = useState("");
+  const [gender, setGender] = useState<"m" | "w" | "na" | null>(null);
+  const [kidsAgeBands, setKidsAgeBands] = useState<string[]>([]);
 
   const currentQuestion = QUESTIONS[questionIndex] ?? null;
   const totalQuestions = QUESTIONS.length;
@@ -192,27 +197,6 @@ export default function DigitalParentQuizPage() {
         ctx.fillStyle = invert ? "rgba(0,0,0,0.18)" : "rgba(255,255,255,0.12)";
         for (let gx = Math.floor(x); gx < x + w; gx += step) ctx.fillRect(gx, y, 1, h);
         for (let gy = Math.floor(y); gy < y + h; gy += step) ctx.fillRect(x, gy, w, 1);
-        ctx.restore();
-      };
-
-      const cornerMarks = (x: number, y: number, w: number, h: number, len: number, c: string) => {
-        ctx.save();
-        ctx.strokeStyle = c;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(x, y + len);
-        ctx.lineTo(x, y);
-        ctx.lineTo(x + len, y);
-        ctx.moveTo(x + w - len, y);
-        ctx.lineTo(x + w, y);
-        ctx.lineTo(x + w, y + len);
-        ctx.moveTo(x, y + h - len);
-        ctx.lineTo(x, y + h);
-        ctx.lineTo(x + len, y + h);
-        ctx.moveTo(x + w - len, y + h);
-        ctx.lineTo(x + w, y + h);
-        ctx.lineTo(x + w, y + h - len);
-        ctx.stroke();
         ctx.restore();
       };
 
@@ -908,6 +892,18 @@ export default function DigitalParentQuizPage() {
       setEmailError("Please enter a valid email.");
       return;
     }
+    if (!respondentType) {
+      setEmailError('Please select an option for "I am:"');
+      return;
+    }
+    if (researchOptIn && birthYear.trim()) {
+      const y = Number(birthYear.trim());
+      const now = new Date().getFullYear();
+      if (!Number.isFinite(y) || !Number.isInteger(y) || y < 1900 || y > now) {
+        setEmailError("Please enter a valid birth year.");
+        return;
+      }
+    }
     if (isSendingEmail) return;
 
     setEmailError(null);
@@ -916,7 +912,17 @@ export default function DigitalParentQuizPage() {
       const res = await fetch("/api/send-quiz-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: e, answers }),
+        body: JSON.stringify({
+          email: e,
+          answers,
+          respondent: {
+            type: respondentType,
+            researchOptIn,
+            birthYear: researchOptIn && birthYear.trim() ? Number(birthYear.trim()) : null,
+            gender: researchOptIn ? gender : null,
+            kidsAges: respondentType === "parent" && researchOptIn && kidsAgeBands.length ? kidsAgeBands : null,
+          },
+        }),
       });
 
       if (!res.ok) {
@@ -1091,8 +1097,165 @@ export default function DigitalParentQuizPage() {
 
                   <div className={styles.resultGateBody}>
                     <div className={styles.resultGateCopy}>
-                      Enter your email to reveal the rest of your result and get a full breakdown of all Digital Parent persona types.
+                      Thank you for taking the quiz and helping us in our research! Enter your email to reveal the rest of your result and get a full breakdown of all Digital Parent persona types.
                     </div>
+
+                    <div className={styles.resultGateRow}>
+                      <div className={styles.resultGateLabel}>
+                        I am:
+                      </div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                        <button
+                          type="button"
+                          className={`${styles.button} ${styles.optionButton} ${respondentType === "parent" ? styles.optionSelected : ""}`}
+                          onClick={() => setRespondentType("parent")}
+                          disabled={isSendingEmail}
+                          style={optionButtonStyle}
+                        >
+                          A parent
+                        </button>
+                        <button
+                          type="button"
+                          className={`${styles.button} ${styles.optionButton} ${respondentType === "expecting" ? styles.optionSelected : ""}`}
+                          onClick={() => {
+                            setRespondentType("expecting");
+                            setKidsAgeBands([]);
+                          }}
+                          disabled={isSendingEmail}
+                          style={optionButtonStyle}
+                        >
+                          Expecting parent
+                        </button>
+                        <button
+                          type="button"
+                          className={`${styles.button} ${styles.optionButton} ${respondentType === "considering" ? styles.optionSelected : ""}`}
+                          onClick={() => {
+                            setRespondentType("considering");
+                            setKidsAgeBands([]);
+                          }}
+                          disabled={isSendingEmail}
+                          style={optionButtonStyle}
+                        >
+                          Considering children
+                        </button>
+                        <button
+                          type="button"
+                          className={`${styles.button} ${styles.optionButton} ${respondentType === "na" ? styles.optionSelected : ""}`}
+                          onClick={() => {
+                            setRespondentType("na");
+                            setKidsAgeBands([]);
+                          }}
+                          disabled={isSendingEmail}
+                          style={optionButtonStyle}
+                        >
+                          Not applicable
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className={styles.resultGateRow}>
+                      <label className={styles.resultGateLabel} htmlFor="dpq-research-optin">
+                        Optional
+                      </label>
+                      <label style={{ display: "flex", alignItems: "center", gap: 10, userSelect: "none" }}>
+                        <input
+                          id="dpq-research-optin"
+                          type="checkbox"
+                          checked={researchOptIn}
+                          onChange={(ev) => setResearchOptIn(ev.target.checked)}
+                          disabled={isSendingEmail}
+                        />
+                        Help further our research with optional questions
+                      </label>
+                    </div>
+
+                    {researchOptIn ? (
+                      <>
+                        <div className={styles.resultGateRow}>
+                          <label className={styles.resultGateLabel} htmlFor="dpq-birth-year">
+                            Birth year
+                          </label>
+                          <input
+                            id="dpq-birth-year"
+                            className={styles.resultGateInput}
+                            value={birthYear}
+                            onChange={(ev) => setBirthYear(ev.target.value)}
+                            inputMode="numeric"
+                            placeholder="e.g. 1990"
+                            disabled={isSendingEmail}
+                          />
+                        </div>
+
+                        <div style={{ borderTop: "1px solid rgba(0,0,0,0.12)", margin: "10px 0" }} />
+
+                        <div className={styles.resultGateRow}>
+                          <div className={styles.resultGateLabel}>Gender</div>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                            <button
+                              type="button"
+                              className={`${styles.button} ${styles.optionButton} ${gender === "m" ? styles.optionSelected : ""}`}
+                              onClick={() => setGender("m")}
+                              disabled={isSendingEmail}
+                              style={optionButtonStyle}
+                            >
+                              Man
+                            </button>
+                            <button
+                              type="button"
+                              className={`${styles.button} ${styles.optionButton} ${gender === "w" ? styles.optionSelected : ""}`}
+                              onClick={() => setGender("w")}
+                              disabled={isSendingEmail}
+                              style={optionButtonStyle}
+                            >
+                              Woman
+                            </button>
+                            <button
+                              type="button"
+                              className={`${styles.button} ${styles.optionButton} ${gender === "na" ? styles.optionSelected : ""}`}
+                              onClick={() => setGender("na")}
+                              disabled={isSendingEmail}
+                              style={optionButtonStyle}
+                            >
+                              Prefer not to say
+                            </button>
+                          </div>
+                        </div>
+
+                        <div style={{ borderTop: "1px solid rgba(0,0,0,0.12)", margin: "10px 0" }} />
+
+                        {respondentType === "parent" ? (
+                          <div className={styles.resultGateRow}>
+                            <div className={styles.resultGateLabel}>
+                              Kid age(s)
+                              <div className={styles.subtle} style={{ marginTop: 6 }}>
+                                Select all that apply (you can choose more than one)
+                              </div>
+                            </div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                              {["0-2", "3-5", "6-9", "10-12", "13-17", "18+"].map((band) => {
+                                const selected = kidsAgeBands.includes(band);
+                                return (
+                                  <button
+                                    key={band}
+                                    type="button"
+                                    className={`${styles.button} ${styles.optionButton} ${selected ? styles.optionSelected : ""}`}
+                                    onClick={() => {
+                                      setKidsAgeBands((prev) =>
+                                        prev.includes(band) ? prev.filter((b) => b !== band) : [...prev, band]
+                                      );
+                                    }}
+                                    disabled={isSendingEmail}
+                                    style={optionButtonStyle}
+                                  >
+                                    {band}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        ) : null}
+                      </>
+                    ) : null}
 
                     <div className={styles.resultGateRow}>
                       <label className={styles.resultGateLabel} htmlFor="dpq-email">

@@ -16,6 +16,13 @@ export const runtime = "nodejs";
 type SendQuizEmailBody = {
   email: string;
   answers: (string | null)[];
+  respondent?: {
+    type?: "parent" | "expecting" | "considering" | "na" | null;
+    researchOptIn?: boolean;
+    birthYear?: number | null;
+    gender?: "m" | "w" | "na" | null;
+    kidsAges?: string[] | null;
+  };
 };
 
 function isValidEmail(email: string) {
@@ -61,6 +68,7 @@ export async function POST(req: Request) {
 
   const email = (body.email ?? "").trim();
   const answers = Array.isArray(body.answers) ? body.answers : [];
+  const respondent = body.respondent ?? null;
 
   if (!isValidEmail(email)) {
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
@@ -117,6 +125,7 @@ export async function POST(req: Request) {
     answers: answerRows,
     scores,
     topPersonaId,
+    respondent,
   };
 
   const allPersonas = PERSONAS.map((p: QuizPersona) => ({

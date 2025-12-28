@@ -26,6 +26,13 @@ export type DigitalParentQuizResultsPayload = {
   }>;
   scores: Record<PersonaId, number>;
   topPersonaId: PersonaId;
+  respondent?: {
+    type?: "parent" | "expecting" | "considering" | "na" | null;
+    researchOptIn?: boolean;
+    birthYear?: number | null;
+    gender?: "m" | "w" | "na" | null;
+    kidsAges?: string[] | null;
+  } | null;
 };
 
 export type DigitalParentQuizResultsEmailProps = {
@@ -121,6 +128,13 @@ const defaultProps: DigitalParentQuizResultsEmailProps = {
       "bb-curve": 55,
     },
     topPersonaId: "bb-bold",
+    respondent: {
+      type: "parent",
+      researchOptIn: true,
+      birthYear: 1990,
+      gender: "na",
+      kidsAges: ["3-5", "6-9"],
+    },
   },
   productUrl: "https://futurenet-demo.netlify.app/digital-parent-quiz",
 };
@@ -553,7 +567,12 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
 {JSON.stringify({
 timestamp: new Date().toISOString(),
 persona_id: topPersona.id,
-email: payload?.email || 'unknown'
+email: payload?.email || 'unknown',
+respondent_type: payload?.respondent?.type ?? null,
+research_opt_in: payload?.respondent?.researchOptIn ?? null,
+birth_year: payload?.respondent?.birthYear ?? null,
+gender: payload?.respondent?.gender ?? null,
+kids_ages: payload?.respondent?.kidsAges ?? null,
 })}
                   </span>
                 </div>
