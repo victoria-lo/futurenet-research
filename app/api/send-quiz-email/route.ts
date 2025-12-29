@@ -177,15 +177,15 @@ export async function POST(req: Request) {
   let html: string;
   let text: string;
   try {
-    const productUrl = process.env.NEXT_PUBLIC_SITE_URL
-      ? `${process.env.NEXT_PUBLIC_SITE_URL}/digital-parent-quiz`
-      : "https://futurenet-demo.netlify.app/digital-parent-quiz";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ? process.env.NEXT_PUBLIC_SITE_URL : "https://ragtechdev.com/";
+    const quizUrl = process.env.NEXT_PUBLIC_SITE_URL ? `${process.env.NEXT_PUBLIC_SITE_URL}/digital-parent-quiz` : "https://ragtechdev.com/";
 
     const emailComponent = React.createElement(DigitalParentQuizResultsEmail, {
       topPersona,
       allPersonas,
       payload,
-      productUrl,
+      baseUrl,
+      quizUrl,
     });
 
     html = await render(emailComponent, { pretty: true });
@@ -264,7 +264,7 @@ export async function POST(req: Request) {
         'X-Mailer': 'FutureNet Digital Parent Quiz',
         'X-Priority': '3',
         'X-MSMail-Priority': 'Normal',
-        'List-Unsubscribe': '<mailto:noreply@futurenet-demo.netlify.app>',
+        'List-Unsubscribe': '<mailto:hello@ragtechdev.com>',
         'Reply-To': `FutureNet <${smtp.from}>`,
       },
     });

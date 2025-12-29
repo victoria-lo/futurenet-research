@@ -1,8 +1,5 @@
-import * as React from "react";
 import { Html, Head, Preview, Body, Container, Section, Text, Heading, Hr, Img, Link } from "@react-email/components";
 import { PHONE_IMAGE_URLS, PERSONAS } from "../digital-parent-quiz/quizPersonas";
-
-
 
 export type PersonaId =
   | "bb-bold"
@@ -55,7 +52,8 @@ export type DigitalParentQuizResultsEmailProps = {
     summary: string;
   }>;
   payload: DigitalParentQuizResultsPayload;
-  productUrl: string;
+  baseUrl: string;
+  quizUrl: string;
 };
 
 const base = {
@@ -63,8 +61,6 @@ const base = {
   color: "#1a1a1a",
   lineHeight: "1.6",
 };
-
-
 
 const highlight = {
   background: "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.18) 10%, rgba(0, 0, 0, 0.18) 90%, rgba(0, 0, 0, 0) 100%)",
@@ -138,11 +134,18 @@ const defaultProps: DigitalParentQuizResultsEmailProps = {
       kidsAges: ["3-5", "6-9"],
     },
   },
-  productUrl: "https://futurenet-demo.netlify.app/digital-parent-quiz",
+  baseUrl: "https://futurenet-demo..app/",
+  quizUrl: "https://futurenet-demo..app/digital-parent-quiz"
 };
 
 export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizResultsEmailProps) {
-  const { topPersona = defaultProps.topPersona, allPersonas = defaultProps.allPersonas, payload = defaultProps.payload, productUrl = defaultProps.productUrl } = props;
+  const { 
+    topPersona = defaultProps.topPersona, 
+    allPersonas = defaultProps.allPersonas, 
+    payload = defaultProps.payload, 
+    baseUrl = defaultProps.baseUrl, 
+    quizUrl = defaultProps.quizUrl 
+  } = props;
   
 
   return (
@@ -160,7 +163,7 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                 Thank you for joining our research! 🙏
               </Text>
               <Text style={{ fontSize: "14px", lineHeight: "1.6", margin: "0 0 16px", color: "#4a4a4a" }}>
-                By taking this quiz, you&apos;ve contributed to crucial research on the digital landscape of children, adolescents, and their parents here at <a href="https://futurenet-demo.netlify.app/" target="_blank" style={{ 
+                By taking this quiz, you&apos;ve contributed to crucial research on the digital landscape of children, adolescents, and their parents here at <a href={baseUrl} target="_blank" style={{ 
                   backgroundColor: "#000000", 
                   color: "#ffffff", 
                   padding: "4px 8px", 
@@ -351,14 +354,14 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                 
                 {/* URL */}
                 <Text style={{ margin: "0", fontSize: "9px", fontWeight: "400", color: "#ffffff", fontFamily: "'Courier New', monospace", letterSpacing: "1px" }}>
-                  futurenet-demo.netlify.app/digital-parent-quiz
+                  {quizUrl}
                 </Text>
                 
               </div>
 
               {/* Social Share Buttons */}
               <div style={{ textAlign: "center", margin: "16px 0" }}>
-                <Link href={`https://wa.me/?text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! 📱 Help us research how technology shapes modern parenting - what's your digital parenting style? Take the quiz: https://futurenet-demo.netlify.app/digital-parent-quiz`} style={{ textDecoration: "none" }}>
+                <Link href={`https://wa.me/?text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! 📱 Help us research how technology shapes modern parenting - what's your digital parenting style? Take the quiz: ${quizUrl}}`} style={{ textDecoration: "none" }}>
                   <div style={{ 
                     backgroundColor: "#a8e6a3", 
                     color: "#2d5a2d", 
@@ -393,7 +396,7 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                   </div>
                 </Link>
                 
-                <Link href={`https://t.me/share/url?url=https://futurenet-demo.netlify.app/digital-parent-quiz&text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! Help us research how technology shapes modern parenting - what's your digital parenting style?`} style={{ textDecoration: "none" }}>
+                <Link href={`https://t.me/share/url?url=${quizUrl}&text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! Help us research how technology shapes modern parenting - what's your digital parenting style?`} style={{ textDecoration: "none" }}>
                   <div style={{ 
                     backgroundColor: "#a3d5f0", 
                     color: "#2d4a5a", 
@@ -417,7 +420,7 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                   </div>
                 </Link>
                 
-                <Link href={`https://www.instagram.com/direct/new/?text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! Help us research how technology shapes modern parenting - what's your digital parenting style? Take the quiz: https://futurenet-demo.netlify.app/digital-parent-quiz`} style={{ textDecoration: "none" }}>
+                <Link href={`https://www.instagram.com/direct/new/?text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! Help us research how technology shapes modern parenting - what's your digital parenting style? Take the quiz: ${quizUrl}`} style={{ textDecoration: "none" }}>
                   <div style={{ 
                     backgroundColor: "#f0a3d5", 
                     color: "#5a2d4a", 
@@ -442,7 +445,7 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                   </div>
                 </Link>
                 
-                <Link href={`https://futurenet-demo.netlify.app/digital-parent-quiz?share=${encodeURIComponent(`I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! Help us research how technology shapes modern parenting.`)}`} style={{ textDecoration: "none" }}>
+                <Link href={`${quizUrl}?share=${encodeURIComponent(`I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! Help us research how technology shapes modern parenting.`)}`} style={{ textDecoration: "none" }}>
                   <div style={{ 
                     backgroundColor: "#d5a3f0", 
                     color: "#4a2d5a", 
@@ -527,12 +530,12 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                 Share the quiz and compare your results!
               </Text>
               <div style={{ margin: "20px 0" }}>
-                <a href={productUrl} style={{ display: "inline-block", padding: "14px 24px", backgroundColor: "#f7f3ea", border: "3px solid rgba(26, 26, 26, 0.65)", borderRadius: "0", textDecoration: "none", color: "#1a1a1a", fontWeight: "600", fontSize: "16px", letterSpacing: "0.01em" }}>
+                <a href={quizUrl} style={{ display: "inline-block", padding: "14px 24px", backgroundColor: "#f7f3ea", border: "3px solid rgba(26, 26, 26, 0.65)", borderRadius: "0", textDecoration: "none", color: "#1a1a1a", fontWeight: "600", fontSize: "16px", letterSpacing: "0.01em" }}>
                   Take the Quiz Again
                 </a>
               </div>
               <Text style={{ margin: "16px 0 0", fontSize: "14px", opacity: "0.7" }}>
-                Forward this email to friends or share the link: {productUrl}
+                Forward this email to friends or share the link: {quizUrl}
               </Text>
             </Section>
 
@@ -597,11 +600,11 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                   wordBreak: "break-all"
                 }}>
                   <span style={{ fontFamily: "'Courier New', monospace", fontSize: "11px" }}>
-{JSON.stringify(payload?.answers?.map((q, index: number) => ({
-question_id: q.questionId,
-selected_option: q.optionId,
-chapter: q.chapter
-})) || [])}
+                  {JSON.stringify(payload?.answers?.map((q, index: number) => ({
+                  question_id: q.questionId,
+                  selected_option: q.optionId,
+                  chapter: q.chapter
+                  })) || [])}
                   </span>
                 </div>
               </div>
