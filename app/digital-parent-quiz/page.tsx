@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 
 import type { PersonaId, QuizOption } from "./quizTypes";
 import { PERSONAS, PHONE_IMAGE_URLS } from "./quizPersonas";
-import { QUESTIONS } from "./quizQuestions";
+import { QUESTIONS, QUIZ_VERSION } from "./quizQuestions";
 
 function SceneSvg({ sceneId }: { sceneId: string }) {
   const [loaded, setLoaded] = useState<{ sceneId: string; markup: string } | null>(null);
@@ -917,6 +917,8 @@ export default function DigitalParentQuizPage() {
         body: JSON.stringify({
           email: e,
           answers,
+          responses: QUESTIONS.map((q, i) => ({ questionId: q.id, optionId: answers[i] })),
+          quizVersion: QUIZ_VERSION,
           respondent: {
             type: respondentType,
             researchOptIn,

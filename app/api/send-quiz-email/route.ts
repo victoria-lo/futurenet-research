@@ -17,6 +17,8 @@ export const runtime = "nodejs";
 type SendQuizEmailBody = {
   email: string;
   answers: (string | null)[];
+  responses?: Array<{ questionId: string; optionId: string | null }>;
+  quizVersion?: string | null;
   respondent?: {
     type?: "parent" | "expecting" | "considering" | "na" | null;
     researchOptIn?: boolean;
@@ -93,6 +95,22 @@ function makeParticipantId(email: string) {
   return crypto.createHash("sha256").update(email).digest("hex").slice(0, 16);
 }
 
+function questionSetHashFromQuestions() {
+  const canonical = QUESTIONS.map((q) => ({
+    id: q.id,
+    chapter: q.chapter,
+    sceneId: q.sceneId,
+    prompt: q.prompt,
+    options: q.options.map((o) => ({
+      id: o.id,
+      label: o.label,
+      points: o.points,
+    })),
+  }));
+
+  return crypto.createHash("sha256").update(JSON.stringify(canonical)).digest("hex").slice(0, 16);
+}
+
 export async function POST(req: Request) {
   let body: SendQuizEmailBody;
   try {
@@ -102,8 +120,23 @@ export async function POST(req: Request) {
   }
 
   const email = (body.email ?? "").trim();
-  const answers = Array.isArray(body.answers) ? body.answers : [];
+  const answersFromBody = Array.isArray(body.answers) ? body.answers : [];
   const respondent = body.respondent ?? null;
+  const quizVersion = typeof body.quizVersion === "string" ? body.quizVersion : null;
+
+  const answers = (() => {
+    const responses = Array.isArray(body.responses) ? body.responses : null;
+    if (!responses) return answersFromBody;
+
+    const byQuestionId = new Map<string, string | null>();
+    for (const r of responses) {
+      if (!r || typeof r.questionId !== "string") continue;
+      const opt = r.optionId;
+      byQuestionId.set(r.questionId, typeof opt === "string" ? opt : null);
+    }
+
+    return QUESTIONS.map((q) => byQuestionId.get(q.id) ?? null);
+  })();
 
   if (!isValidEmail(email)) {
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
@@ -155,6 +188,7 @@ export async function POST(req: Request) {
   }
 
   const participantId = makeParticipantId(email);
+  const questionSetHash = questionSetHashFromQuestions();
 
   const payload: DigitalParentQuizResultsPayload = {
     submittedAt: new Date().toISOString(),
@@ -164,6 +198,8 @@ export async function POST(req: Request) {
     scores,
     topPersonaId,
     respondent,
+    quizVersion,
+    questionSetHash,
   };
 
   const allPersonas = PERSONAS.map((p: QuizPersona) => ({

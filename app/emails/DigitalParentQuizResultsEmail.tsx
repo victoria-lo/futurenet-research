@@ -15,6 +15,8 @@ export type DigitalParentQuizResultsPayload = {
   submittedAt: string;
   participantId: string;
   email: string;
+  quizVersion?: string | null;
+  questionSetHash?: string | null;
   answers: Array<{
     questionId: string;
     optionId: string;
@@ -106,6 +108,8 @@ const defaultProps: DigitalParentQuizResultsEmailProps = {
     submittedAt: "2025-12-26T14:00:00Z",
     participantId: "demo-participant-id",
     email: "parent@example.com",
+    quizVersion: "dpq-2025-12-29",
+    questionSetHash: "demo-hash",
     answers: [
       {
         questionId: "q1",
@@ -548,6 +552,8 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                   timestamp: new Date().toISOString(),
                   persona_id: topPersona.id,
                   participant_id: payload?.participantId || 'unknown',
+                  quiz_version: payload?.quizVersion ?? null,
+                  question_set_hash: payload?.questionSetHash ?? null,
                   respondent_type: payload?.respondent?.type ?? null,
                   research_opt_in: payload?.respondent?.researchOptIn ?? null,
                   birth_year: payload?.respondent?.birthYear ?? null,

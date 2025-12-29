@@ -1,5 +1,7 @@
 import type { QuizQuestion } from "./quizTypes";
 
+export const QUIZ_VERSION = "dpq-2025-12-29";
+
 export const QUESTIONS: QuizQuestion[] = [
   {
     id: "q1",
