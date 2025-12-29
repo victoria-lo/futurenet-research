@@ -90,6 +90,8 @@ export default function DigitalParentQuizPage() {
   const [birthYear, setBirthYear] = useState("");
   const [gender, setGender] = useState<"m" | "w" | "na" | null>(null);
   const [kidsAgeBands, setKidsAgeBands] = useState<string[]>([]);
+  const [isSharingStory, setIsSharingStory] = useState(false);
+  const [shareError, setShareError] = useState<string | null>(null);
 
   const currentQuestion = QUESTIONS[questionIndex] ?? null;
   const totalQuestions = QUESTIONS.length;
@@ -953,6 +955,71 @@ export default function DigitalParentQuizPage() {
     }
   }
 
+  async function getStoryPngFile(): Promise<File | null> {
+    const canvas = storyCanvasRef.current;
+    if (!canvas) return null;
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob((b) => resolve(b), "image/png");
+    });
+    if (!blob) return null;
+
+    return new File([blob], "digital-parent-quiz-story.png", { type: "image/png" });
+  }
+
+  async function downloadStoryImage() {
+    const canvas = storyCanvasRef.current;
+    if (!canvas) return;
+    const url = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "digital-parent-quiz-story.png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  async function shareStoryToInstagram() {
+    if (isSharingStory) return;
+    setShareError(null);
+    setIsSharingStory(true);
+    try {
+      if (typeof navigator === "undefined" || typeof navigator.share !== "function") {
+        await downloadStoryImage();
+        return;
+      }
+
+      const file = await getStoryPngFile();
+      if (!file) {
+        setShareError("Could not generate the story image. Please try again.");
+        return;
+      }
+
+      const data: ShareData = {
+        title: "My Digital Parent Quiz result",
+        text: "I took FutureNet's Digital Parent Quiz—check yours.",
+        files: [file],
+      };
+
+      // Some browsers require canShare() for file sharing.
+      const canShareFiles = typeof navigator.canShare === "function" ? navigator.canShare({ files: [file] }) : true;
+      if (!canShareFiles) {
+        await downloadStoryImage();
+        return;
+      }
+
+      await navigator.share(data);
+    } catch (err) {
+      // User cancel is common; avoid scary messaging.
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg && !/abort/i.test(msg) && !/cancel/i.test(msg)) {
+        setShareError("Sharing failed. You can download the image instead.");
+      }
+    } finally {
+      setIsSharingStory(false);
+    }
+  }
+
   const optionButtonStyle: CSSProperties = { borderWidth: 2 };
 
   return (
@@ -1080,6 +1147,23 @@ export default function DigitalParentQuizPage() {
 
         {step === "result" ? (
           <div className={styles.storyGateRegion}>
+            {isUnlocked ? (
+              <div style={{ marginBottom: 12 }}>
+                <div className={styles.subtle} style={{ marginBottom: 10 }}>
+                  Help our research by sharing this on your social media — together, we can shape a safer and healthier digital landscape for our next generation!
+                </div>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                  <button type="button" className={styles.button} onClick={shareStoryToInstagram} disabled={isSharingStory}>
+                    {isSharingStory ? "Preparing…" : "💌 Share Your Results!"}
+                  </button>
+                  <button type="button" className={`${styles.button} ${styles.buttonSecondary}`} onClick={downloadStoryImage}>
+                    ⬇️ Download Your Results
+                  </button>
+                  {shareError ? <div className={styles.subtle}>{shareError}</div> : null}
+                </div>
+              </div>
+            ) : null}
+
             <div className={`${styles.scene} ${styles.storyPreviewWrap}`} style={{ padding: 12 }}>
               <canvas ref={storyCanvasRef} className={styles.storyCanvas} />
             </div>

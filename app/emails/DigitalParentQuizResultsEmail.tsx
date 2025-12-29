@@ -361,7 +361,7 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
 
               {/* Social Share Buttons */}
               <div style={{ textAlign: "center", margin: "16px 0" }}>
-                <Link href={`https://wa.me/?text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! 📱 Help us research how technology shapes modern parenting - what's your digital parenting style? Take the quiz: ${quizUrl}}`} style={{ textDecoration: "none" }}>
+                <Link href={`https://wa.me/?text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! 📱 Help us research how technology shapes modern parenting - what's your digital parenting style? Take the quiz: ${quizUrl}`} style={{ textDecoration: "none" }}>
                   <div style={{ 
                     backgroundColor: "#a8e6a3", 
                     color: "#2d5a2d", 
@@ -417,31 +417,6 @@ export default function DigitalParentQuizResultsEmail(props: DigitalParentQuizRe
                       </g>
                     </svg>
                     Telegram
-                  </div>
-                </Link>
-                
-                <Link href={`https://www.instagram.com/direct/new/?text=I just discovered I'm "${topPersona.characterName}" (${topPersona.phoneModel}) in FutureNet's Digital Parent Quiz! Help us research how technology shapes modern parenting - what's your digital parenting style? Take the quiz: ${quizUrl}`} style={{ textDecoration: "none" }}>
-                  <div style={{ 
-                    backgroundColor: "#f0a3d5", 
-                    color: "#5a2d4a", 
-                    padding: "5px 12px", 
-                    borderRadius: "8px", 
-                    fontSize: "14px", 
-                    fontWeight: "600",
-                    border: "2px solid rgba(240, 163, 213, 0.6)",
-                    cursor: "pointer",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px"
-                  }}>
-                    <svg width="40" height="40" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                      <g fill="none" stroke="#5a2d4a" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="80" y="80" width="240" height="240" rx="50"/>
-                        <circle cx="200" cy="200" r="50"/>
-                        <circle cx="260" cy="140" r="10"/>
-                      </g>
-                    </svg>
-                    Instagram
                   </div>
                 </Link>
                 
