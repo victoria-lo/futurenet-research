@@ -93,6 +93,15 @@ export default function DigitalParentQuizPage() {
   const [isSharingStory, setIsSharingStory] = useState(false);
   const [shareError, setShareError] = useState<string | null>(null);
 
+  const quizUrl = useMemo(() => {
+    try {
+      if (typeof window === "undefined") return "https://ragtechdev.com";
+      return `${window.location.origin}/digital-parent-quiz`;
+    } catch {
+      return "https://ragtechdev.com";
+    }
+  }, []);
+
   const currentQuestion = QUESTIONS[questionIndex] ?? null;
   const totalQuestions = QUESTIONS.length;
 
@@ -668,7 +677,136 @@ export default function DigitalParentQuizPage() {
       }
 
       const summaryX = headerX;
-      const summaryY = 910;
+      const ctaBoxX = headerX;
+      const ctaBoxY = 890;
+      const ctaBoxW = headerW;
+      const ctaBoxH = 90;
+
+      // CTA box
+      ctx.save();
+      ctx.globalAlpha = 1;
+      roundedRect(ctaBoxX, ctaBoxY, ctaBoxW, ctaBoxH, 28);
+      ctx.fillStyle = "rgba(255,255,255,1)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(0,0,0,0.55)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      const cyberPurple = "#B026FF";
+      const cyberPurpleSoft = "rgba(176,38,255,0.55)";
+
+      ctx.strokeStyle = cyberPurple;
+      ctx.lineWidth = 2;
+      roundedRect(ctaBoxX + 6, ctaBoxY + 6, ctaBoxW - 12, ctaBoxH - 12, 22);
+      ctx.stroke();
+
+      ctx.save();
+      ctx.shadowColor = cyberPurple;
+      ctx.shadowBlur = 14;
+      ctx.strokeStyle = cyberPurpleSoft;
+      ctx.lineWidth = 3;
+      roundedRect(ctaBoxX + 10, ctaBoxY + 10, ctaBoxW - 20, ctaBoxH - 20, 18);
+      ctx.stroke();
+      ctx.restore();
+
+      // corner brackets
+      ctx.strokeStyle = cyberPurple;
+      ctx.lineWidth = 4;
+      const bx1 = ctaBoxX + 14;
+      const by1 = ctaBoxY + 14;
+      const bx2 = ctaBoxX + ctaBoxW - 14;
+      const by2 = ctaBoxY + ctaBoxH - 14;
+      const bl = 18;
+      ctx.beginPath();
+      ctx.moveTo(bx1, by1 + bl);
+      ctx.lineTo(bx1, by1);
+      ctx.lineTo(bx1 + bl, by1);
+      ctx.moveTo(bx2 - bl, by1);
+      ctx.lineTo(bx2, by1);
+      ctx.lineTo(bx2, by1 + bl);
+      ctx.moveTo(bx1, by2 - bl);
+      ctx.lineTo(bx1, by2);
+      ctx.lineTo(bx1 + bl, by2);
+      ctx.moveTo(bx2 - bl, by2);
+      ctx.lineTo(bx2, by2);
+      ctx.lineTo(bx2, by2 - bl);
+      ctx.stroke();
+
+      // top shine line
+      const shine = ctx.createLinearGradient(ctaBoxX, ctaBoxY, ctaBoxX + ctaBoxW, ctaBoxY);
+      shine.addColorStop(0, "rgba(176,38,255,0)");
+      shine.addColorStop(0.15, "rgba(176,38,255,0.55)");
+      shine.addColorStop(0.5, "rgba(0,0,0,0.0)");
+      shine.addColorStop(0.85, "rgba(176,38,255,0.55)");
+      shine.addColorStop(1, "rgba(176,38,255,0)");
+      ctx.strokeStyle = shine;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(ctaBoxX + 22, ctaBoxY + 12);
+      ctx.lineTo(ctaBoxX + ctaBoxW - 22, ctaBoxY + 12);
+      ctx.stroke();
+
+      // badge
+      ctx.fillStyle = cyberPurple;
+      roundedRect(ctaBoxX + ctaBoxW - 118, ctaBoxY + 14, 96, 28, 14);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,1)";
+      ctx.font = `900 14px ${fontTech}`;
+      ctx.fillText("TAKE QUIZ", ctaBoxX + ctaBoxW - 106, ctaBoxY + 34);
+
+      gridTexture(ctaBoxX + 2, ctaBoxY + 2, ctaBoxW - 4, ctaBoxH - 4, 22, 0.06, false);
+
+      const ctaTextX = ctaBoxX + 22;
+      const ctaTextY = ctaBoxY + 32;
+      const ctaTextMaxW = ctaBoxW - 44;
+
+      const ctaPrefix = "Follow our research on ";
+      const ctaHandle = "@ragtechdev";
+      const ctaSuffix = " and take the quiz now at:";
+
+      ctx.fillStyle = "rgba(0,0,0,0.88)";
+      ctx.font = `900 22px ${fontHeadline}`;
+      const prefixW = ctx.measureText(ctaPrefix).width;
+      ctx.fillText(ctaPrefix, ctaTextX, ctaTextY);
+
+      const handleX = ctaTextX + Math.min(prefixW, ctaTextMaxW);
+      ctx.fillStyle = cyberPurple;
+      ctx.font = `900 24px ${fontHeadline}`;
+      ctx.fillText(ctaHandle, handleX, ctaTextY);
+      const handleW = ctx.measureText(ctaHandle).width;
+
+      // underline @ragtechdev to make it pop
+      ctx.strokeStyle = cyberPurpleSoft;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(handleX, ctaTextY + 6);
+      ctx.lineTo(handleX + Math.min(handleW, ctaTextMaxW), ctaTextY + 6);
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(0,0,0,0.88)";
+      ctx.font = `900 22px ${fontHeadline}`;
+      const suffixX = handleX + handleW;
+      ctx.fillText(ctaSuffix, suffixX, ctaTextY);
+
+      const ctaUrlY = ctaBoxY + 60;
+      const ctaUrlFont = `900 24px ${fontTech}`;
+      ctx.font = ctaUrlFont;
+      const ctaUrlLines = wrapText(quizUrl, ctaTextMaxW, ctaUrlFont);
+      const ctaUrlText = ctaUrlLines[0] ?? quizUrl;
+      ctx.fillStyle = cyberPurple;
+      ctx.fillText(ctaUrlText, ctaTextX, ctaUrlY);
+
+      // underline the URL to make it feel like a link
+      const urlW = ctx.measureText(ctaUrlText).width;
+      ctx.strokeStyle = cyberPurpleSoft;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(ctaTextX, ctaUrlY + 6);
+      ctx.lineTo(ctaTextX + Math.min(urlW, ctaTextMaxW), ctaUrlY + 6);
+      ctx.stroke();
+
+      ctx.restore();
+
+      const summaryY = ctaBoxY + ctaBoxH + 20;
       const summaryW = headerW;
       const summaryH = 240;
       const glass = ctx.createLinearGradient(summaryX, summaryY, summaryX, summaryY + summaryH);
@@ -725,7 +863,7 @@ export default function DigitalParentQuizPage() {
       ctx.stroke();
       ctx.restore();
 
-      const questY = 1180;
+      const questY = summaryY + summaryH + 30;
       const questTitleY = questY + 52;
       ctx.fillStyle = "rgba(0,0,0,0.72)";
       roundedRect(headerX, questY, headerW, 640, 34);
@@ -819,7 +957,7 @@ export default function DigitalParentQuizPage() {
       ctx.fillText("FUTURENET", safePad, H - 86);
       ctx.fillStyle = "rgba(255,255,255,1)";
       ctx.font = `600 22px ${fontTech}`;
-      ctx.fillText("https://futurenet-demo.netlify.app/digital-parent-quiz", safePad, H - 54);
+      ctx.fillText(quizUrl, safePad, H - 54);
 
       ctx.save();
       ctx.globalAlpha = 0.12;
@@ -855,7 +993,7 @@ export default function DigitalParentQuizPage() {
     };
 
     void draw();
-  }, [step, topPersona, isUnlocked]);
+  }, [step, topPersona, isUnlocked, quizUrl]);
 
   function startQuiz() {
     setStep("quiz");
@@ -999,7 +1137,8 @@ export default function DigitalParentQuizPage() {
 
       const data: ShareData = {
         title: "My Digital Parent Quiz result",
-        text: "I took FutureNet's Digital Parent Quiz—check yours.",
+        text: `I took FutureNet's Digital Parent Quiz—check yours here:\n${quizUrl}`,
+        url: quizUrl,
         files: [file],
       };
 
