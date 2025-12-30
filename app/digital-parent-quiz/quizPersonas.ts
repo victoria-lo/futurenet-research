@@ -3,7 +3,7 @@ import type { PersonaId, QuizPersona } from "./quizTypes";
 export const PHONE_IMAGE_URLS: Record<PersonaId, string> = {
   "bb-bold":
     "https://www.cnet.com/a/img/resize/8aff5ecdbdc6fadd06ca979f04f2569f1ec7359a/hub/2008/08/21/6069b59f-f8fd-11e2-8c7c-d4ae52e62bcc/Blackberry_bold-Rogers.jpg?auto=webp&width=1200",
-  "htc-desire": "https://upload.wikimedia.org/wikipedia/commons/3/33/Htc-desire-2.jpg",
+  "htc-desire": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F3%2F33%2FHtc-desire-2.jpg&f=1&nofb=1&ipt=8c50d12bd1aba56b25b121baca7efb211006b3b8f1f2ab6b2597d59fe41c0063",
   "palm-treo":
     "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1500w,f_auto,q_auto:best/msnbc/Components/Photos/060515/060515_palm_vmed_9a.jpg",
   razr: "https://upload.wikimedia.org/wikipedia/commons/5/56/Motorola_Razr_V3_montage_closed_open.png",

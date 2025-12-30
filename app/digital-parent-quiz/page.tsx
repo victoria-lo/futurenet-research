@@ -954,7 +954,7 @@ export default function DigitalParentQuizPage() {
 
       ctx.fillStyle = "rgba(255,255,255,1)";
       ctx.font = `800 24px ${fontTech}`;
-      ctx.fillText("FUTURENET", safePad, H - 86);
+      ctx.fillText("FUTURENET", safePad, H - 75);
       ctx.fillStyle = "rgba(255,255,255,1)";
       ctx.font = `600 22px ${fontTech}`;
       ctx.fillText(quizUrl, safePad, H - 54);
