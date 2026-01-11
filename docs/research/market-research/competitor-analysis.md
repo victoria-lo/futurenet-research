@@ -26,18 +26,18 @@ It also maps **unfilled gaps** against discovery interview pain points in:
 
 ```mermaid
 flowchart TB
-  A[Kids Safety + Communication Market] --> J[Japan: Telco-integrated kids lines]
-  A --> W[West UK-US: DTC subscription devices]
-  A --> T[West UK-US: Screen-free GPS + voice]
+  A["Kids Safety + Communication Market"] --> J["Japan: Telco-integrated kids lines"]
+  A --> W["West UK-US: DTC subscription devices"]
+  A --> T["West UK-US: Screen-free GPS + voice"]
 
-  J --> J1[KDDI mamorino watch\n- voice call + SMS\n- preset contacts\n- GPS + distance alarm\n- security buzzer]
-  J --> J2[Docomo Kids Keitai\n- no browser/apps\n- whitelisted contacts\n- GPS (Imadoco)\n- SOS buzzer\n- remote ring/auto-answer]
+  J --> J1["KDDI mamorino watch<br/>- voice call + SMS<br/>- preset contacts<br/>- GPS + distance alarm<br/>- security buzzer"]
+  J --> J2["Docomo Kids Keitai<br/>- no browser/apps<br/>- whitelisted contacts<br/>- GPS Imadoco<br/>- SOS buzzer<br/>- remote ring/auto-answer"]
 
-  T --> T1[BoT Talk\n- GPS + voice messages\n- LTE-M\n- geofencing\n- AI supervision]
-  T --> T2[Karri\n- voice messenger\n- GPS + geofence\n- integrated SIM\n- roaming]
+  T --> T1["BoT Talk<br/>- GPS + voice messages<br/>- LTE-M<br/>- geofencing<br/>- AI supervision"]
+  T --> T2["Karri<br/>- voice messenger<br/>- GPS + geofence<br/>- integrated SIM<br/>- roaming"]
 
-  W --> W1[WisePhone\n- no browser/social/games\n- optional curated apps\n- subscription]
-  W --> W2[Sage iPhone\n- system-level managed iPhone\n- 150+ approved apps\n- subscription]
+  W --> W1["WisePhone<br/>- no browser/social/games<br/>- optional curated apps<br/>- subscription"]
+  W --> W2["Sage iPhone<br/>- system-level managed iPhone<br/>- 150+ approved apps<br/>- subscription"]
 ```
 
 ---
